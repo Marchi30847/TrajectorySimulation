@@ -1,12 +1,12 @@
 package org.example.ui;
 
 import org.example.ui.abstraction.SimulateListener;
-import org.example.ui.abstraction.InputView;
+import org.example.ui.abstraction.AInputView;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class InputPanel extends InputView {
+public class InputView extends AInputView {
     private JTextField deltaTimeField;
     private JTextField massField;
     private JTextField resistanceCoefficientField;
@@ -16,7 +16,7 @@ public class InputPanel extends InputView {
     private JTextField vy0Field;
     private JButton simulateButton;
 
-    public InputPanel(String panelTitle) {
+    public InputView(String panelTitle) {
         configure(panelTitle);
 
         initDeltaTimeField();

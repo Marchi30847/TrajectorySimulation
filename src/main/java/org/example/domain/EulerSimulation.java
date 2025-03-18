@@ -18,14 +18,14 @@ public class EulerSimulation {
     public static void simulate(
             double deltaTime,
             double mass,
-            double resistanceCoefficient,
+            double dragCoefficient,
             double sx0, double sy0,
             double vx0, double vy0
     ) {
         simulate(
                 deltaTime,
                 mass,
-                resistanceCoefficient,
+                dragCoefficient,
                 0, -9.81,
                 sx0, sy0,
                 vx0, vy0
@@ -35,7 +35,7 @@ public class EulerSimulation {
     public static void simulate(
             double deltaTime,
             double mass,
-            double resistanceCoefficient,
+            double dragCoefficient,
             double gx, double gy,
             double sx0, double sy0,
             double vx0, double vy0
@@ -49,8 +49,8 @@ public class EulerSimulation {
             xData.add(sx);
             yData.add(sy);
 
-            double ax = (mass * gx - resistanceCoefficient * vx) / mass;
-            double ay = (mass * gy - resistanceCoefficient * vy) / mass;
+            double ax = (mass * gx - dragCoefficient * vx) / mass;
+            double ay = (mass * gy - dragCoefficient * vy) / mass;
 
             vx += ax * deltaTime;
             vy += ay * deltaTime;

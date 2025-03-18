@@ -2,17 +2,17 @@ package org.example.ui;
 
 import org.example.domain.EulerSimulation;
 import org.example.domain.MidpointSimulation;
-import org.example.ui.abstraction.ChartView;
-import org.example.ui.abstraction.InputView;
+import org.example.ui.abstraction.AChartView;
+import org.example.ui.abstraction.AInputView;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainView {
     private JFrame frame;
-    private ChartView chart;
-    private InputView eulerInput;
-    private InputView midpointInput;
+    private AChartView chart;
+    private AInputView eulerInput;
+    private AInputView midpointInput;
 
     public MainView() {
         initFrame();
@@ -31,38 +31,38 @@ public class MainView {
     }
 
     private void initChart() {
-        chart = new ChartPanel();
+        chart = new ChartView();
     }
 
     private void initEulerInput() {
-        eulerInput = new InputPanel("Euler Method");
+        eulerInput = new InputView("Euler Method");
         eulerInput.addSimulateListener((
                 deltaTime,
                 mass,
-                resistanceCoefficient,
+                dragCoefficient,
                 sx0,
                 sy0,
                 vx0,
                 vy0
         ) -> {
-            EulerSimulation.simulate(deltaTime, mass, resistanceCoefficient, sx0, sy0, vx0, vy0);
+            EulerSimulation.simulate(deltaTime, mass, dragCoefficient, sx0, sy0, vx0, vy0);
 
             chart.update("Euler", EulerSimulation.xData, EulerSimulation.yData, Color.BLUE);
         });
     }
 
     private void initMidpointInput() {
-        midpointInput = new InputPanel("Midpoint Method");
+        midpointInput = new InputView("Midpoint Method");
         midpointInput.addSimulateListener((
                 deltaTime,
                 mass,
-                resistanceCoefficient,
+                dragCoefficient,
                 sx0,
                 sy0,
                 vx0,
                 vy0
         ) -> {
-            MidpointSimulation.simulate(deltaTime, mass, resistanceCoefficient, sx0, sy0, vx0, vy0);
+            MidpointSimulation.simulate(deltaTime, mass, dragCoefficient, sx0, sy0, vx0, vy0);
 
             chart.update("Midpoint", MidpointSimulation.xData, MidpointSimulation.yData, Color.YELLOW);
         });

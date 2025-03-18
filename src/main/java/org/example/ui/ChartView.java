@@ -1,6 +1,6 @@
 package org.example.ui;
 
-import org.example.ui.abstraction.ChartView;
+import org.example.ui.abstraction.AChartView;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XChartPanel;
@@ -9,10 +9,10 @@ import org.knowm.xchart.XYSeries;
 import java.awt.*;
 import java.util.List;
 
-public class ChartPanel extends ChartView {
+public class ChartView extends AChartView {
     private XYChart chart;
 
-    public ChartPanel() {
+    public ChartView() {
         configure();
 
         initChart();

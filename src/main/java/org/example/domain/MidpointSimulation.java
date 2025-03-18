@@ -18,14 +18,14 @@ public class MidpointSimulation {
     public static void simulate(
             double deltaTime,
             double mass,
-            double resistanceCoefficient,
+            double dragCoefficient,
             double sx0, double sy0,
             double vx0, double vy0
     ) {
         simulate(
                 deltaTime,
                 mass,
-                resistanceCoefficient,
+                dragCoefficient,
                 0, -9.81,
                 sx0, sy0,
                 vx0, vy0
@@ -35,7 +35,7 @@ public class MidpointSimulation {
     public static void simulate(
             double deltaTime,
             double mass,
-            double resistanceCoefficient,
+            double dragCoefficient,
             double gx, double gy,
             double sx0, double sy0,
             double vx0, double vy0
@@ -49,14 +49,14 @@ public class MidpointSimulation {
             xData.add(sx);
             yData.add(sy);
 
-            double ax1 = (mass * gx - resistanceCoefficient * vx) / mass;
-            double ay1 = (mass * gy - resistanceCoefficient * vy) / mass;
+            double ax1 = (mass * gx - dragCoefficient * vx) / mass;
+            double ay1 = (mass * gy - dragCoefficient * vy) / mass;
 
             double vx_mid = vx + ax1 * (deltaTime / 2);
             double vy_mid = vy + ay1 * (deltaTime / 2);
 
-            double ax2 = (mass * gx - resistanceCoefficient * vx_mid) / mass;
-            double ay2 = (mass * gy - resistanceCoefficient * vy_mid) / mass;
+            double ax2 = (mass * gx - dragCoefficient * vx_mid) / mass;
+            double ay2 = (mass * gy - dragCoefficient * vy_mid) / mass;
 
             vx += ax2 * deltaTime;
             vy += ay2 * deltaTime;
