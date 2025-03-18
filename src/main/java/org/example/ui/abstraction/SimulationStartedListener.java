@@ -1,7 +1,7 @@
 package org.example.ui.abstraction;
 
 @FunctionalInterface
-public interface SimulateListener {
+public interface SimulationStartedListener {
     void onSimulate(
             double deltaTime,
             double mass,

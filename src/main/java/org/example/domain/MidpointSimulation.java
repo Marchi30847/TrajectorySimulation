@@ -4,75 +4,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MidpointSimulation {
-    public final static List<Double> xData = new ArrayList<>();
-    public final static List<Double> yData = new ArrayList<>();
+    private final static double Gx = 0;
+    private final static double Gy = -9.81;
 
-    private MidpointSimulation() {
-    }
+    private final double deltaTime;
+    private final double dragCoefficient;
+    private final double mass;
 
-    private static void clearOldData() {
-        xData.clear();
-        yData.clear();
-    }
+    private double posX, posY;
+    private double prevSpdX, prevSpdY;
 
-    public static void simulate(
+    public List<Double> xData = new ArrayList<>();
+    public List<Double> yData = new ArrayList<>();
+
+    public MidpointSimulation(
             double deltaTime,
             double mass,
             double dragCoefficient,
-            double sx0, double sy0,
-            double vx0, double vy0
+            double initialX, double initialY,
+            double initialSpdX, double initialSpdY
     ) {
-        simulate(
-                deltaTime,
-                mass,
-                dragCoefficient,
-                0, -9.81,
-                sx0, sy0,
-                vx0, vy0
-        );
+        this.deltaTime = deltaTime;
+        this.dragCoefficient = dragCoefficient;
+        this.mass = mass;
+        this.posX = initialX;
+        this.posY = initialY;
+        this.prevSpdX = initialSpdX;
+        this.prevSpdY = initialSpdY;
     }
 
-    public static void simulate(
-            double deltaTime,
-            double mass,
-            double dragCoefficient,
-            double gx, double gy,
-            double sx0, double sy0,
-            double vx0, double vy0
-    ) {
-        clearOldData();
+    public double accelerationX(double speedX) {
+        return (mass * Gx - dragCoefficient * Math.pow(speedX, 2)) / mass;
+    }
 
-        double sx = sx0, sy = sy0;
-        double vx = vx0, vy = vy0;
+    public double accelerationY(double speedY) {
+        return (mass * Gy - dragCoefficient * Math.pow(speedY, 2)) / mass;
+    }
 
-        while (sy >= 0) {
-            xData.add(sx);
-            yData.add(sy);
+    public void update() {
+        double midSpdX = prevSpdX + accelerationX(prevSpdX) * (deltaTime / 2);
+        double midSpdY = prevSpdY + accelerationY(prevSpdY) * (deltaTime / 2);
 
-            double ax1 = (mass * gx - dragCoefficient * vx) / mass;
-            double ay1 = (mass * gy - dragCoefficient * vy) / mass;
+        double midAccX = accelerationX(midSpdX);
+        double midAccY = accelerationY(midSpdY);
 
-            double vx_mid = vx + ax1 * (deltaTime / 2);
-            double vy_mid = vy + ay1 * (deltaTime / 2);
+        double newSpdX = prevSpdX + midAccX * deltaTime;
+        double newSpdY = prevSpdY + midAccY * deltaTime;
 
-            double ax2 = (mass * gx - dragCoefficient * vx_mid) / mass;
-            double ay2 = (mass * gy - dragCoefficient * vy_mid) / mass;
+        posX += midSpdX * deltaTime;
+        posY += midSpdY * deltaTime;
 
-            vx += ax2 * deltaTime;
-            vy += ay2 * deltaTime;
+        prevSpdX = newSpdX;
+        prevSpdY = newSpdY;
+    }
 
-            sx += vx_mid * deltaTime;
-            sy += vy_mid * deltaTime;
-
-            if (sy < 0) {
-                double tGround = -yData.getLast() / vy;
-                double xGround = xData.getLast() + vx * tGround;
-                double yGround = 0.0;
-
-                xData.add(xGround);
-                yData.add(yGround);
-                break;
-            }
+    public void simulate() {
+        while (posY >= -1) {
+            xData.add(posX);
+            yData.add(posY);
+            update();
         }
     }
 }

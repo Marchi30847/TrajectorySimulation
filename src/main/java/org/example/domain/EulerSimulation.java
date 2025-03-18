@@ -4,71 +4,67 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EulerSimulation {
-    public final static List<Double> xData = new ArrayList<>();
-    public final static List<Double> yData = new ArrayList<>();
+    private final static double Gx = 0;
+    private final static double Gy = -9.81;
 
-    private EulerSimulation() {
-    }
+    private final double deltaTime;
+    private final double dragCoefficient;
+    private final double mass;
 
-    private static void clearOldData() {
-        xData.clear();
-        yData.clear();
-    }
+    private double posX, posY;
+    private double prevSpdX, prevSpdY;
 
-    public static void simulate(
+    public List<Double> xData = new ArrayList<>();
+    public List<Double> yData = new ArrayList<>();
+
+    public EulerSimulation(
             double deltaTime,
             double mass,
             double dragCoefficient,
-            double sx0, double sy0,
-            double vx0, double vy0
+            double initialX, double initialY,
+            double initialSpdX, double initialSpdY
     ) {
-        simulate(
-                deltaTime,
-                mass,
-                dragCoefficient,
-                0, -9.81,
-                sx0, sy0,
-                vx0, vy0
-        );
+        this.deltaTime = deltaTime;
+        this.dragCoefficient = dragCoefficient;
+        this.mass = mass;
+        this.posX = initialX;
+        this.posY = initialY;
+        this.prevSpdX = initialSpdX;
+        this.prevSpdY = initialSpdY;
     }
 
-    public static void simulate(
-            double deltaTime,
-            double mass,
-            double dragCoefficient,
-            double gx, double gy,
-            double sx0, double sy0,
-            double vx0, double vy0
-    ) {
-        clearOldData();
+    public double speedX() {
+        return prevSpdX + accelerationX(prevSpdX) * deltaTime;
+    }
 
-        double sx = sx0, sy = sy0;
-        double vx = vx0, vy = vy0;
+    public double speedY() {
+        return prevSpdY + accelerationY(prevSpdY) * deltaTime;
+    }
 
-        while (sy >= 0) {
-            xData.add(sx);
-            yData.add(sy);
+    public double accelerationX(double vx) {
+        return (mass * Gx - dragCoefficient * Math.pow(vx, 2)) / mass;
+    }
 
-            double ax = (mass * gx - dragCoefficient * vx) / mass;
-            double ay = (mass * gy - dragCoefficient * vy) / mass;
+    public double accelerationY(double vy) {
+        return (mass * Gy - dragCoefficient * Math.pow(vy, 2)) / mass;
+    }
 
-            vx += ax * deltaTime;
-            vy += ay * deltaTime;
+    public void update() {
+        double newSpdX = speedX();
+        double newSpdY = speedY();
 
-            sx += vx * deltaTime;
-            sy += vy * deltaTime;
+        posX += prevSpdX * deltaTime;
+        posY += prevSpdY * deltaTime;
 
-            if (sy < 0) {
-                double tGround = -(yData.getLast() / vy);
-                double xGround = xData.getLast() + vx * tGround;
-                double yGround = 0.0;
+        prevSpdX = newSpdX;
+        prevSpdY = newSpdY;
+    }
 
-                xData.add(xGround);
-                yData.add(yGround);
-
-                break;
-            }
+    public void simulate() {
+        while (posY >= -1) {
+            xData.add(posX);
+            yData.add(posY);
+            update();
         }
     }
-
 }

@@ -45,9 +45,16 @@ public class MainView {
                 vx0,
                 vy0
         ) -> {
-            EulerSimulation.simulate(deltaTime, mass, dragCoefficient, sx0, sy0, vx0, vy0);
+            EulerSimulation simulation = new EulerSimulation(
+                    deltaTime,
+                    mass,
+                    dragCoefficient,
+                    sx0, sy0,
+                    vx0, vy0
+            );
+            simulation.simulate();
 
-            chart.update("Euler", EulerSimulation.xData, EulerSimulation.yData, Color.BLUE);
+            chart.update("Euler", simulation.xData, simulation.yData, Color.BLUE);
         });
     }
 
@@ -62,9 +69,15 @@ public class MainView {
                 vx0,
                 vy0
         ) -> {
-            MidpointSimulation.simulate(deltaTime, mass, dragCoefficient, sx0, sy0, vx0, vy0);
-
-            chart.update("Midpoint", MidpointSimulation.xData, MidpointSimulation.yData, Color.YELLOW);
+            MidpointSimulation simulation = new MidpointSimulation(
+                    deltaTime,
+                    mass,
+                    dragCoefficient,
+                    sx0, sy0,
+                    vx0, vy0
+            );
+            simulation.simulate();
+            chart.update("Midpoint", simulation.xData, simulation.yData, Color.YELLOW);
         });
     }
 

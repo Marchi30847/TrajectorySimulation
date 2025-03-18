@@ -1,6 +1,6 @@
 package org.example.ui;
 
-import org.example.ui.abstraction.SimulateListener;
+import org.example.ui.abstraction.SimulationStartedListener;
 import org.example.ui.abstraction.AInputView;
 
 import javax.swing.*;
@@ -89,7 +89,7 @@ public class InputView extends AInputView {
     }
 
     @Override
-    public void addSimulateListener(SimulateListener simulateListener) {
+    public void addSimulateListener(SimulationStartedListener simulateListener) {
         simulateButton.addActionListener(_ -> {
             try {
                 double dt = Double.parseDouble(deltaTimeField.getText());
