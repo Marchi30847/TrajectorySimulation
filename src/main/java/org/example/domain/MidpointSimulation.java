@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MidpointSimulation {
-    private final static double Gx = 0;
-    private final static double Gy = -9.81;
+    private final static double gX = 0;
+    private final static double gY = -9.81;
 
     private final double deltaTime;
     private final double dragCoefficient;
@@ -34,11 +34,11 @@ public class MidpointSimulation {
     }
 
     public double accelerationX(double speedX) {
-        return (mass * Gx - dragCoefficient * Math.pow(speedX, 2)) / mass;
+        return (mass * gX - dragCoefficient * Math.pow(speedX, 2)) / mass;
     }
 
     public double accelerationY(double speedY) {
-        return (mass * Gy - dragCoefficient * Math.pow(speedY, 2)) / mass;
+        return (mass * gY - dragCoefficient * Math.pow(speedY, 2)) / mass;
     }
 
     public void update() {

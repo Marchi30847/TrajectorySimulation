@@ -5,5 +5,10 @@ import java.awt.*;
 import java.util.List;
 
 public abstract class AChartView extends JPanel {
-    public abstract void update(String seriesName, List<Double> xData, List<Double> yData, Color color);
+    public abstract void update(
+            String seriesName,
+            List<Double> xData,
+            List<Double> yData,
+            Color color
+    );
 }

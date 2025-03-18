@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EulerSimulation {
-    private final static double Gx = 0;
-    private final static double Gy = -9.81;
+    private final static double gX = 0;
+    private final static double gY = -9.81;
 
     private final double deltaTime;
     private final double dragCoefficient;
@@ -42,11 +42,11 @@ public class EulerSimulation {
     }
 
     public double accelerationX(double vx) {
-        return (mass * Gx - dragCoefficient * Math.pow(vx, 2)) / mass;
+        return (mass * gX - dragCoefficient * Math.pow(vx, 2)) / mass;
     }
 
     public double accelerationY(double vy) {
-        return (mass * Gy - dragCoefficient * Math.pow(vy, 2)) / mass;
+        return (mass * gY - dragCoefficient * Math.pow(vy, 2)) / mass;
     }
 
     public void update() {

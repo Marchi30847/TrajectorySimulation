@@ -6,7 +6,7 @@ public interface SimulationStartedListener {
             double deltaTime,
             double mass,
             double dragCoefficient,
-            double sx0, double sy0,
-            double vx0, double vy0
+            double initialX, double initialY,
+            double initialSpdX, double initialSpdY
     );
 }
